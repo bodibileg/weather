@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Icon = ({ code, type , color }) => {
+const Icon = ({ code, type , color, className }) => {
   const [icon, setIcon] = useState(null);
 
   useEffect(() => {
@@ -18,13 +18,13 @@ const Icon = ({ code, type , color }) => {
 
   if(!icon) return null;
 
-    return <img src={icon} alt={iconList[code]}
+    return <img className={className} src={icon} alt={iconList[code]}
      fill={color} />;
 };
 
 const iconList = {
     '01d': 'clear-day',
-    '01n': 'clear-night',
+    '01n': 'starry-night',
     '02d': 'partly-cloudy-day',
     '02n': 'partly-cloudy-night',
     '03d': 'cloudy',
@@ -41,7 +41,10 @@ const iconList = {
     '13n': 'snow',
     '50d': 'mist',
     '50n': 'mist',
-
+    'sunrise': 'sunrise',
+    'sunset': 'sunset',
+    'humidity': 'humidity',
+    'barometer': 'barometer',
 }
 
 // const weatherIcons = {

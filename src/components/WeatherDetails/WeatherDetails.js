@@ -8,14 +8,17 @@ import {
 } from "../../containers/weatherSlice";
 import getWeatherData from "../../services/getWeatherData";
 import Skeleton from "@mui/material/Skeleton";
+import "./WeatherDetails.scss";
+import Highlights from "../Highlights/Highlights";
 
 const WeatherDetails = () => {
   const [weekly, setWeekly] = useState(true);
 
-  const units = useSelector((state) => state.units);
-  const location = useSelector((state) => state.location);
-  const loading = useSelector((state) => state.loading);
-  const { daily, hourly } = useSelector((state) => state.weatherData);
+  const units = useSelector((state) => state.weather.units);
+  const location = useSelector((state) => state.weather.location);
+  const loading = useSelector((state) => state.weather.loading);
+  const { daily, hourly } = useSelector((state) => state.weather.weatherData);
+  const theme = useSelector((state) => state.theme);
 
   const dispatch = useDispatch();
 
@@ -44,8 +47,28 @@ const WeatherDetails = () => {
     }
   };
 
+
+  const repeatedSkeleton = (length, className, width) => Array.from({ length: length }, (_, index) => (
+    <Skeleton
+      key={index}
+      variant="rounded"
+      width={width+"%"}
+      height={"100%"}
+      className={className}
+      sx={{ bgcolor: 'rgba( 255, 255, 255, 0.5 )' }}
+    />
+  ));
+
+  const darkStyle = {
+    background: 'rgba( 0, 0, 0, 0.5 )',
+    backdropFilter: 'saturate(180%) blur( 20px )',
+    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+    borderRadius: '0 32px 32px 0',
+    WebkitBackdropFilter: "blur( 20px )"
+  };
+
   return (
-    <div className="weather-details">
+    <div className="weather-details" style={theme.isDark ? darkStyle : {}}>
       <div className="forecast">
         <div className="forecast-header">
           <button className={`today-button ${!weekly}`} onClick={toggleWeekly}>
@@ -69,51 +92,34 @@ const WeatherDetails = () => {
         </div>
 
         <div className="forecast-body">
-          {/* {loading
-            ? daily.map((day) => (
-                <Skeleton
-                  variant="rounded"
-                  width={"100%"}
-                  height={"100%"}
-                  className="forecast-card"
+          {loading
+            ? repeatedSkeleton(7, 'forecast-card', 80)
+            : (weekly ? (
+              daily?.map((day, index) => (
+                <ForecastCard
+                  key={index}
+                  weather={day.weather[0].icon}
+                  min={day.temp.min}
+                  max={day.temp.max}
+                  date={{ value: day.dt, format: "ddd" }}
                 />
               ))
-            : null
-          } */}
-          {weekly ? (
-            daily?.map((day, index) => (
-              <ForecastCard
-                key={index}
-                weather={day.weather[0].icon}
-                min={day.temp.min}
-                max={day.temp.max}
-                date={{ value: day.dt, format: "ddd" }}
-              />
+            ) : (
+              hourly?.map((hour, index) => (
+                <ForecastCard
+                  key={index}
+                  weather={hour.weather[0].icon}
+                  temp={hour.temp}
+                  date={{ value: hour.dt, format: "h A" }}
+                />
+              ))
             ))
-          ) : (
-            hourly?.map((hour, index) => (
-              <ForecastCard
-                key={index}
-                weather={hour.weather[0].icon}
-                temp={hour.temp}
-                date={{ value: hour.dt, format: "h A" }}
-              />
-            ))
-          )}
+          }
+          {}
         </div>
       </div>
 
-      <div className="highlights">
-        <span className="label">Highlights</span>
-        <div className="highlights-body">
-          <div className="highlight-card"></div>
-          <div className="highlight-card"></div>
-          <div className="highlight-card"></div>
-          <div className="highlight-card"></div>
-          <div className="highlight-card"></div>
-          <div className="highlight-card"></div>
-        </div>
-      </div>
+      <Highlights />
     </div>
   );
 };

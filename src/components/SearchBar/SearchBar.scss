@@ -1,0 +1,24 @@
+.search-bar {
+  display: flex;
+}
+
+.input {
+  border: 0;
+  border-radius: 24px;
+  font-family: "Verdana", sans-serif;
+  background: none;
+  padding: 1rem;
+  color: #fff;
+}
+
+.input::placeholder {
+  color: #fff;
+}
+
+.search-button,
+.location-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  filter: #7b7c7e;
+}
