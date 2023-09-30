@@ -8,15 +8,30 @@ This is a weather application built with React that provides real-time weather i
 
 To install and run this application locally, follow these steps:
 
-- Clone the repository: git clone <repository-url>
-- Navigate to the project directory: cd weather
-- Install dependencies: npm install
-- Configure enviromental config
-- Start the development server: npm start
+- Clone the repository:
+```sh
+  git clone https://github.com/bodibileg/weather.git
+  ```
+- Navigate to the project directory:
+```sh
+  cd weather
+  ```
+- Install dependencies:
+```sh
+  npm install
+  ```
+- Configure enviromental config:
+```sh
+  touch .env
+```
+- Start the development server:
+```sh
+  npm start
+  ```
 
 ## Feature
 - Current Weather: Get real-time information about the current weather conditions.
-- Weather Forecast: View the weather forecast for the upcoming days.
+- Weather Forecast: View the weather forecast for the upcoming hours and days.
 - Location-based: Provide weather data based on the user's location or a specific location entered by the user.
 
 ## Technologies Used
