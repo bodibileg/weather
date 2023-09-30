@@ -15,7 +15,6 @@ export const weatherSlice = createSlice({
       hourly: [],
     },
     units: "imperial",
-
   },
   reducers: {
     setLoading: (state, actions) => {
@@ -31,10 +30,26 @@ export const weatherSlice = createSlice({
       console.log("setUnit", actions.payload);
       state.units = actions.payload;
     },
+    resetWeatherState: (state) => {
+      state = {
+        loading: false,
+        location: {
+          lat: null,
+          lon: null,
+          name: null,
+        },
+        weatherData: {
+          current: null,
+          daily: [],
+          hourly: [],
+        },
+        units: "imperial",
+      }
+    },
   },
 });
 
-export const { setLoading, setLocation, setWeatherData, setUnit } =
+export const { setLoading, setLocation, setWeatherData, setUnit, resetWeatherState } =
   weatherSlice.actions;
 
 export default weatherSlice.reducer;

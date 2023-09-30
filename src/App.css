@@ -4,9 +4,15 @@ html{
     padding: 0;
 }
 body{
-    max-height: 80%;
+    height: 100%;
     margin: 0;
     padding: 0;
     background-color: #4f9bec;
+}
+
+.App {
+    justify-content: center;
+    align-self: center;
     /* background-color: #1a3858; */
+    /* background-color: #4f9bec; */
 }

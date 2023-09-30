@@ -1,7 +1,6 @@
 import { useState } from "react";
 import searchSVG from "../../assets/icons/static/search.svg";
 import myLocation from "../../assets/icons/static/my-location.png";
-
 import {
   getLocationZipcode,
   getLocationFromBrowser,
@@ -9,13 +8,19 @@ import {
 import getWeatherData from "../../services/getWeatherData";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  resetWeatherState,
   setLoading,
   setLocation,
   setWeatherData,
 } from "../../containers/weatherSlice";
+import Alert from "@mui/material/Alert";
+import SnackBar from "@mui/material/Snackbar";
+import isNight from "../../utils/isNight";
+import "./SearchBar.scss";
 
 const SearchBar = () => {
   const [input, setInput] = useState("");
+  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
 
@@ -29,6 +34,7 @@ const SearchBar = () => {
 
   const getWeatherByZipcode = async (zipcode) => {
     // loading
+    dispatch(resetWeatherState());
     dispatch(setLoading(true));
 
     // get and set location and name from zipcode
@@ -40,6 +46,7 @@ const SearchBar = () => {
       // get and set weather data
       const result = await getWeatherData(latitude, longitude, units);
       result.current.name = name;
+      isNight(result.current, dispatch);
       dispatch(setWeatherData(result));
     }
 
@@ -49,7 +56,7 @@ const SearchBar = () => {
 
   const handleClick = () => {
     if (!zipcodePattern.test(input)) {
-      alert("Please enter a valid zipcode");
+      setError("Please enter a valid zipcode");
       return;
     }
     getWeatherByZipcode(input);
@@ -59,6 +66,7 @@ const SearchBar = () => {
 
   const getWeatherByLocation = async () => {
     // loading
+    dispatch(resetWeatherState());
     dispatch(setLoading(true));
 
     // get and set location and name from browser
@@ -68,6 +76,7 @@ const SearchBar = () => {
     // get and set weather data
     const result = await getWeatherData(latitude, longitude, units);
     result.current.name = name;
+    isNight(result.current, dispatch);
     dispatch(setWeatherData(result));
 
     // loading false
@@ -85,6 +94,7 @@ const SearchBar = () => {
         placeholder="Enter zipcode ... "
         value={input}
         onChange={handleChange}
+        onKeyDown={(e) => e.key === "Enter" && handleClick()}
       />
       <button className="search-button" onClick={handleClick}>
         <img className="search-icon" src={searchSVG} alt="search icon" />
@@ -96,6 +106,26 @@ const SearchBar = () => {
           alt="my location icon"
         />
       </button>
+      <SnackBar
+        open={error !== ""}
+        autoHideDuration={1500}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => {
+          setInput("");
+          setError("");
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setInput("");
+            setError("");
+          }}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {error}
+        </Alert>
+      </SnackBar>
     </div>
   );
 };
