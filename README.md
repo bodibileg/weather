@@ -1,4 +1,4 @@
-# Weather Application
+# Weather
 
 ## Description
 
@@ -46,4 +46,7 @@ To install and run this application locally, follow these steps:
 ## Usage
 - Enter Zipcode: Enter the location zipcode for which you want to check the weather.
 - Current Location Weather: Instantly view the current weather and the forecast for the specified location.
+
+I would like to express my gratitude to the following creator
+-Icons designed by [Bas Milius](https://bas.dev/about) from [Meteocons](https://bas.dev/work/meteocons)
 
