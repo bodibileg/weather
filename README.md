@@ -71,16 +71,15 @@ To install and run this application locally, follow these steps:
   <br/>
   <details>
   <summary>Daytime</summary>
-<!--   ![day screenshot](/screenshots/day-screenshot.png) -->
-    ![day-screenshot](https://github.com/bodibileg/weather/assets/25266669/6ebe3aa7-2544-47e6-9fc7-540714ecb5a4)
+    ![day-screenshot](./screenshots/day-screenshot.png)
 
   </details>
 
   <br/>
   <details>
   <summary>Nighttime</summary>
-<!--   ![night screenshot](/screenshots/night-screenshot.png) -->
-    ![night-screenshot](https://github.com/bodibileg/weather/assets/25266669/65547be2-92ec-4dbe-bdb1-6fc3788429fc)
+  ![night screenshot](./screenshots/night-screenshot.png)
+    <!-- ![night-screenshot](https://github.com/bodibileg/weather/assets/25266669/65547be2-92ec-4dbe-bdb1-6fc3788429fc) -->
 
   </details>
 
