@@ -58,6 +58,11 @@ const SearchBar = () => {
     const location = zipcode
       ? await getLocationByZipcode(input)
       : await getLocationFromBrowser();
+    if (location === null) {
+      dispatch(setLoading(false));
+      setError("Please enable location services and try again.");
+      return;
+    }
     const { latitude, longitude, name } = location;
     dispatch(setLocation({ lat: latitude, lon: longitude, name: name }));
 
