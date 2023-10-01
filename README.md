@@ -7,6 +7,9 @@ This is a weather application built with React that provides real-time weather i
 ## Installation
 
 To install and run this application locally, follow these steps:
+<details>
+  <summary>from GitHub</summary>
+   <br/>
 
 - Clone the repository:
 ```sh
@@ -32,6 +35,21 @@ To install and run this application locally, follow these steps:
 ```sh
   npm start
   ```
+</details>
+
+<details>
+  <summary>from Docker Image</summary>
+  <br/>
+  
+  - pull image:
+```sh
+  docker pull bodibileg/weather-app:latest
+  ```
+  - run:
+```sh
+  docker run -p 3000:3000 bodibileg/weather-app:latest
+  ```
+</details>
 
 ## Feature
 
