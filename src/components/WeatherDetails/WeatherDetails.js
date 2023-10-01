@@ -1,23 +1,26 @@
 import { useState } from "react";
+//components
+import Highlights from "../Highlights/Highlights";
 import ForecastCard from "../ForecastCard/ForecastCard";
+import Skeleton from "@mui/material/Skeleton";
+//redux
 import { useSelector, useDispatch } from "react-redux";
 import {
   setLoading,
   setUnit,
   setWeatherData,
 } from "../../containers/weatherSlice";
+//services
 import getWeatherData from "../../services/getWeatherData";
-import Skeleton from "@mui/material/Skeleton";
 import "./WeatherDetails.scss";
-import Highlights from "../Highlights/Highlights";
 
 const WeatherDetails = () => {
   const [weekly, setWeekly] = useState(true);
 
-  const units = useSelector((state) => state.weather.units);
-  const location = useSelector((state) => state.weather.location);
-  const loading = useSelector((state) => state.weather.loading);
-  const { daily, hourly } = useSelector((state) => state.weather.weatherData);
+  const { units, location, loading, weatherData } = useSelector(
+    (state) => state.weather
+  );
+  const { daily, hourly } = weatherData;
   const theme = useSelector((state) => state.theme);
 
   const dispatch = useDispatch();
@@ -34,37 +37,36 @@ const WeatherDetails = () => {
       dispatch(setLoading(true));
 
       // get and set weather data
-      const result = await getWeatherData(
+      const weatherData = await getWeatherData(
         location.lat,
         location.lon,
         units === "metric" ? "imperial" : "metric"
       );
-      result.current.name = location.name;
-      dispatch(setWeatherData(result));
+      dispatch(setWeatherData(weatherData));
 
       // loading false
       dispatch(setLoading(false));
     }
   };
 
-
-  const repeatedSkeleton = (length, className, width) => Array.from({ length: length }, (_, index) => (
-    <Skeleton
-      key={index}
-      variant="rounded"
-      width={width+"%"}
-      height={"100%"}
-      className={className}
-      sx={{ bgcolor: 'rgba( 255, 255, 255, 0.5 )' }}
-    />
-  ));
+  const repeatedSkeleton = (length, className, width) =>
+    Array.from({ length: length }, (_, index) => (
+      <Skeleton
+        key={index}
+        variant="rounded"
+        width={width + "%"}
+        height={"100%"}
+        className={className}
+        sx={{ bgcolor: "rgba( 255, 255, 255, 0.5 )" }}
+      />
+    ));
 
   const darkStyle = {
-    background: 'rgba( 0, 0, 0, 0.5 )',
-    backdropFilter: 'saturate(180%) blur( 20px )',
-    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
-    borderRadius: '0 32px 32px 0',
-    WebkitBackdropFilter: "blur( 20px )"
+    background: "rgba( 0, 0, 0, 0.5 )",
+    backdropFilter: "saturate(180%) blur( 20px )",
+    boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+    borderRadius: "0 32px 32px 0",
+    WebkitBackdropFilter: "blur( 20px )",
   };
 
   return (
@@ -92,33 +94,31 @@ const WeatherDetails = () => {
         </div>
 
         <div className="forecast-body">
+          {/* rendering skeleton loader while loading */}
           {loading
-            ? repeatedSkeleton(7, 'forecast-card', 80)
-            : (weekly ? (
-              daily?.map((day, index) => (
+            ? repeatedSkeleton(7, "forecast-card", 80)
+            : weekly
+            ? daily?.map((day, index) => (
                 <ForecastCard
                   key={index}
                   weather={day.weather[0].icon}
-                  min={day.temp.min}
-                  max={day.temp.max}
+                  minTemperature={day.temp.min}
+                  maxTemperature={day.temp.max}
                   date={{ value: day.dt, format: "ddd" }}
                 />
               ))
-            ) : (
-              hourly?.map((hour, index) => (
+            : hourly?.map((hour, index) => (
                 <ForecastCard
                   key={index}
                   weather={hour.weather[0].icon}
-                  temp={hour.temp}
+                  currentTemp={hour.temp}
                   date={{ value: hour.dt, format: "h A" }}
                 />
-              ))
-            ))
-          }
-          {}
+              ))}
         </div>
       </div>
 
+      {/* todays highlights */}
       <Highlights />
     </div>
   );

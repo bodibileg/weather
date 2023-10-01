@@ -7,6 +7,5 @@ const store = configureStore({ reducer: {
     theme: themeReducer,
 } })
 
-console.log(store.getState())
 
 export default store;

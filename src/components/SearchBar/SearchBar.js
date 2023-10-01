@@ -2,13 +2,12 @@ import { useState } from "react";
 import searchSVG from "../../assets/icons/static/search.svg";
 import myLocation from "../../assets/icons/static/my-location.png";
 import {
-  getLocationZipcode,
+  getLocationByZipcode,
   getLocationFromBrowser,
 } from "../../services/geoLocation";
 import getWeatherData from "../../services/getWeatherData";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  resetWeatherState,
   setLoading,
   setLocation,
   setWeatherData,
@@ -18,6 +17,8 @@ import SnackBar from "@mui/material/Snackbar";
 import isNight from "../../utils/isNight";
 import "./SearchBar.scss";
 
+const isValidZipcode = (input) => /^\d{5}$/.test(input);
+
 const SearchBar = () => {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
@@ -26,65 +27,49 @@ const SearchBar = () => {
 
   const units = useSelector((state) => state.units);
 
-  const zipcodePattern = /^\d{5}$/;
-
   const handleChange = (e) => {
     setInput(e.target.value);
   };
 
-  const getWeatherByZipcode = async (zipcode) => {
-    // loading
-    dispatch(resetWeatherState());
-    dispatch(setLoading(true));
-
-    // get and set location and name from zipcode
-    const location = await getLocationZipcode(zipcode);
-    if (location) {
-      const { latitude, longitude, name } = location;
-      dispatch(setLocation({ lat: latitude, lon: longitude, name: name }));
-
-      // get and set weather data
-      const result = await getWeatherData(latitude, longitude, units);
-      result.current.name = name;
-      isNight(result.current, dispatch);
-      dispatch(setWeatherData(result));
-    }
-
-    // loading false
-    dispatch(setLoading(false));
-  };
-
+  // handle click on search button
   const handleClick = () => {
-    if (!zipcodePattern.test(input)) {
-      setError("Please enter a valid zipcode");
+    // validate input
+    if (!isValidZipcode(input)) {
+      setError("Please enter a valid 5-digit zipcode");
       return;
     }
-    getWeatherByZipcode(input);
 
+    getWeather(input);
+    //clear input
     input && setInput("");
   };
 
-  const getWeatherByLocation = async () => {
-    // loading
-    dispatch(resetWeatherState());
+  // handle click on location button
+  const handleLocationClick = () => {
+    getWeather();
+  };
+
+  // get weather data
+  const getWeather = async (zipcode) => {
+    // set loading
     dispatch(setLoading(true));
 
-    // get and set location and name from browser
-    const { latitude, longitude, name } = await getLocationFromBrowser();
+    // get and set location and name from zipcode or browser
+    const location = zipcode
+      ? await getLocationByZipcode(input)
+      : await getLocationFromBrowser();
+    const { latitude, longitude, name } = location;
     dispatch(setLocation({ lat: latitude, lon: longitude, name: name }));
 
     // get and set weather data
-    const result = await getWeatherData(latitude, longitude, units);
-    result.current.name = name;
-    isNight(result.current, dispatch);
+    const result = await getWeatherData(latitude, longitude, units, name);
     dispatch(setWeatherData(result));
+
+    // set theme
+    isNight(result.current, dispatch);
 
     // loading false
     dispatch(setLoading(false));
-  };
-
-  const handleLocationClick = () => {
-    getWeatherByLocation();
   };
 
   return (

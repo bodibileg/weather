@@ -1,108 +1,106 @@
 import { useEffect, useState } from "react";
 
-const Icon = ({ code, type , color, className }) => {
+const Icon = ({ code, weatherCode, type, color, className }) => {
   const [icon, setIcon] = useState(null);
 
   useEffect(() => {
     const importIcon = async () => {
       try {
-        if(code) {
-          import(`../../assets/icons/${type}/${iconList[code]}.svg`).then((icon) =>
-            setIcon(icon.default)
-          );
+        if (code) {
+          import(
+            `../../assets/icons/${type}/${
+              weatherIconList[weatherCode] || iconList[code]
+            }.svg`
+          ).then((icon) => setIcon(icon.default));
         }
       } catch (error) {}
     };
     importIcon();
-  }, [code, type]);
+  }, [code, weatherCode, type]);
 
-  if(!icon) return null;
+  if (!icon) return null;
 
-    return <img className={className} src={icon} alt={iconList[code]}
-     fill={color} />;
+  return (
+    <img className={className} src={icon} alt={iconList[code]} fill={color} />
+  );
 };
 
 const iconList = {
-    '01d': 'clear-day',
-    '01n': 'starry-night',
-    '02d': 'partly-cloudy-day',
-    '02n': 'partly-cloudy-night',
-    '03d': 'cloudy',
-    '03n': 'cloudy',
-    '04d': 'overcast',
-    '04n': 'overcast',
-    '09d': 'overcast-rain',
-    '09n': 'overcast-rain',
-    '10d': 'rain',
-    '10n': 'rain',
-    '11d': 'thunderstorms',
-    '11n': 'thunderstorms',
-    '13d': 'snow',
-    '13n': 'snow',
-    '50d': 'mist',
-    '50n': 'mist',
-    'sunrise': 'sunrise',
-    'sunset': 'sunset',
-    'humidity': 'humidity',
-    'barometer': 'barometer',
-}
+  "01d": "clear-day",
+  "01n": "starry-night",
+  "02d": "partly-cloudy-day",
+  "02n": "partly-cloudy-night",
+  "03d": "cloudy",
+  "03n": "cloudy",
+  "04d": "overcast",
+  "04n": "overcast",
+  "09d": "overcast-rain",
+  "09n": "overcast-rain",
+  "10d": "rain",
+  "10n": "rain",
+  "11d": "thunderstorms",
+  "11n": "thunderstorms",
+  "13d": "snow",
+  "13n": "snow",
+  "50d": "mist",
+  "50n": "mist",
+  sunrise: "sunrise",
+  sunset: "sunset",
+  humidity: "humidity",
+  barometer: "barometer",
+};
 
-// const weatherIcons = {
-//   200: 'thunderstorms-rain.svg',
-//   201: 'thunderstorms-rain.svg',
-//   202: 'thunderstorms-day-extreme-rain.svg',
-//   210: 'thunderstorms.svg',
-//   211: 'thunderstorms.svg',
-//   212: 'thunderstorms-overcast.svg',
-//   221: 'thunderstorms-overcast.svg',
-//   230: 'thunderstorms-rain.svg',
-//   231: 'thunderstorms-rain.svg',
-//   232: 'thunderstorms-rain.svg',
-//   300: 'drizzle.svg',
-//   301: 'drizzle.svg',
-//   302: 'drizzle.svg',
-//   310: 'drizzle.svg',
-//   311: 'drizzle.svg',
-//   312: 'drizzle.svg',
-//   313: 'drizzle.svg',
-//   314: 'drizzle.svg',
-//   321: 'drizzle.svg',
-//   500: 'rain.svg',
-//   501: 'rain.svg',
-//   502: 'rain.svg',
-//   503: 'rain.svg',
-//   504: 'rain.svg',
-//   511: 'freezing-rain.svg',
-//   520: 'rain.svg',
-//   521: 'rain.svg',
-//   522: 'rain.svg',
-//   531: 'rain.svg',
-//   600: 'snow.svg',
-//   601: 'snow.svg',
-//   602: 'snow.svg',
-//   611: 'sleet.svg',
-//   612: 'sleet.svg',
-//   613: 'sleet.svg',
-//   615: 'snow.svg',
-//   616: 'snow.svg',
-//   620: 'snow.svg',
-//   621: 'snow.svg',
-//   622: 'snow.svg',
-//   701: 'mist.svg',
-//   711: 'smoke.svg',
-//   721: 'haze.svg',
-//   731: 'dust.svg',
-//   741: 'fog.svg',
-//   751: 'dust.svg',
-//   761: 'dust.svg',
-//   762: 'volcanic-ash.svg',
-//   771: 'squalls.svg',
-//   781: 'tornado.svg',
-//   800: 'clear-day.svg',
-//   801: 'cloudy.svg',
-//   802: 'cloudy.svg',
-//   803: 'cloudy.svg',
-//   804: 'overcast.svg'
-// };
+const weatherIconList = {
+  200: "thunderstorms-rain",
+  201: "thunderstorms-rain",
+  202: "thunderstorms-overcast-rain",
+  210: "thunderstorms",
+  211: "thunderstorms",
+  212: "thunderstorms-overcast",
+  221: "thunderstorms-overcast",
+  230: "thunderstorms-rain",
+  231: "thunderstorms-rain",
+  232: "thunderstorms-rain",
+  300: "drizzle",
+  301: "drizzle",
+  302: "drizzle",
+  310: "drizzle",
+  311: "rain",
+  312: "drizzle",
+  313: "drizzle",
+  314: "drizzle",
+  321: "drizzle",
+  500: "rain",
+  501: "rain",
+  502: "rain",
+  503: "rain",
+  504: "rain",
+  511: "overcast-sleet",
+  520: "rain",
+  521: "rain",
+  522: "rain",
+  531: "rain",
+  600: "snow",
+  601: "snow",
+  602: "snow",
+  611: "sleet",
+  612: "sleet",
+  613: "sleet",
+  615: "snow",
+  616: "snow",
+  620: "snow",
+  621: "snow",
+  622: "snow",
+  701: "mist",
+  711: "smoke",
+  721: "haze",
+  731: "dust",
+  741: "fog",
+  751: "dust",
+  761: "dust",
+  762: "smoke",
+  771: "thunderstorms",
+  781: "tornado",
+};
 
 export default Icon;

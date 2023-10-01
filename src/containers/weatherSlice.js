@@ -27,7 +27,6 @@ export const weatherSlice = createSlice({
       state.weatherData = actions.payload;
     },
     setUnit: (state, actions) => {
-      console.log("setUnit", actions.payload);
       state.units = actions.payload;
     },
     resetWeatherState: (state) => {

@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
-import moment from "moment";
 import Icon from "../Icon/Icon";
+import { useSelector } from "react-redux";
+import moment from "moment";
 import "./Highlights.scss";
 
 const repeatedSkeleton = (length, className, width) =>
@@ -19,11 +19,8 @@ const repeatedSkeleton = (length, className, width) =>
 const Highlights = () => {
   const units = useSelector((state) => state.weather.units);
   const loading = useSelector((state) => state.weather.loading);
-  const { current } = useSelector(
-    (state) => state.weather.weatherData
-  );
+  const { current } = useSelector((state) => state.weather.weatherData);
 
-  
   return (
     <div className="highlights">
       <span className="label">Highlights</span>
@@ -31,7 +28,6 @@ const Highlights = () => {
         {loading ? repeatedSkeleton(6, "highlight-card", 100) : null}
         {!loading && current ? (
           <>
-            {console.log(current)}
             <div className="highlight-card">
               <div className="highlight-card-wrapper">
                 <div className="highlight-card-title">UV Index</div>
@@ -51,7 +47,7 @@ const Highlights = () => {
                   <div className="highlight-card-content-txt">
                     {current.wind_speed}
                     <span className="id">
-                      {units === "metric" ? "km/h" : "ml/h"}
+                      {units === "metric" ? "km/h" : "mi/h"}
                     </span>
                   </div>
                 </div>
@@ -64,12 +60,22 @@ const Highlights = () => {
               <div className="highlight-card-wrapper">
                 <div className="highlight-card-title">Sunrise & Sunset</div>
                 <div className="highlight-card-sun">
-                <Icon className="sun" code='sunrise' type="static" color="#fff" />
-                  <div>{moment.unix(current.sunrise).format("LT")}</div>
+                  <Icon
+                    className="sun"
+                    code="sunrise"
+                    type="static"
+                    color="#fff"
+                  />
+                  <div>{moment.unix(current.sunrise).format("hh:mm A")}</div>
                 </div>
                 <div className="highlight-card-sun">
-                <Icon className="sun" code='sunset' type="static" color="#fff" />
-                  <div>{moment.unix(current.sunset).format("LT")}</div>
+                  <Icon
+                    className="sun"
+                    code="sunset"
+                    type="static"
+                    color="#fff"
+                  />
+                  <div>{moment.unix(current.sunset).format("hh:mm A")}</div>
                 </div>
               </div>
             </div>
@@ -82,7 +88,12 @@ const Highlights = () => {
                       {current.humidity}
                     </div>
                   </div>
-                    <Icon className="icon" code='humidity' type="static" color="#fff" />
+                  <Icon
+                    className="icon"
+                    code="humidity"
+                    type="static"
+                    color="#fff"
+                  />
                 </div>
                 <div className="highlight-card-foot">
                   {humidityDetails(current.humidity)}
@@ -96,7 +107,7 @@ const Highlights = () => {
                   <div className="highlight-card-content-txt">
                     {current.visibility / (units === "metric" ? 1000 : 1600)}
                     <span className="id">
-                      {units === "metric" ? "km" : "ml"}
+                      {units === "metric" ? "km" : "mi"}
                     </span>
                   </div>
                   <div className="highlight-card-content-icon"></div>
@@ -116,7 +127,12 @@ const Highlights = () => {
                     )}
                   </div>
                   <div className="highlight-card-content-icon">
-                    <Icon className="icon" code='barometer' type="static" color="#fff" />
+                    <Icon
+                      className="icon"
+                      code="barometer"
+                      type="static"
+                      color="#fff"
+                    />
                   </div>
                 </div>
                 <div className="highlight-card-foot">inhg</div>
@@ -128,10 +144,10 @@ const Highlights = () => {
     </div>
   );
 };
+
 const getColor = (val) => {
   let styles = {
     "--value": val,
-    // "--chartColor" : ""
   };
   if (val <= 3) {
     styles["--chartColor"] = "#91c700";
@@ -146,6 +162,7 @@ const getColor = (val) => {
   }
   return styles;
 };
+
 const humidityDetails = (humidity) => {
   if (humidity <= 20) {
     return "Dry";
@@ -155,15 +172,19 @@ const humidityDetails = (humidity) => {
   }
   return "Too Humid";
 };
+
 const getVisibilityDetails = (distance) => {
-  if (distance <= 5000) {
+  const POOR_VISIBILITY_THRESHOLD = 5000;
+  const MODERATE_VISIBILITY_THRESHOLD = 7000;
+  if (distance <= POOR_VISIBILITY_THRESHOLD) {
     return "Poor visibility";
   }
-  if (distance <= 7000) {
+  if (distance <= MODERATE_VISIBILITY_THRESHOLD) {
     return "Moderate visibility";
   }
   return "Good visibility";
 };
+
 const getWindDirection = (degree) => {
   //213.75 - 236.25
   const directions = [
@@ -192,4 +213,5 @@ const getWindDirection = (degree) => {
   }
   return "N";
 };
+
 export default Highlights;

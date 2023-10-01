@@ -1,15 +1,13 @@
-import moment from "moment";
+import SearchBar from "../SearchBar/SearchBar";
+import Icon from "../Icon/Icon";
+import Skeleton from "@mui/material/Skeleton";
 
 import thermometerMoon from "../../assets/icons/static/thermometer-glass.svg";
 import thermometerSun from "../../assets/icons/static/thermometer.svg";
 import cloud from "../../assets/icons/static/cloudy.svg";
 
-import SearchBar from "../SearchBar/SearchBar";
-import Icon from "../Icon/Icon";
-
-import Skeleton from "@mui/material/Skeleton";
-
 import { useSelector } from "react-redux";
+import moment from "moment";
 import "./CurrentWeather.scss";
 
 const CurrentWeather = () => {
@@ -40,14 +38,12 @@ const CurrentWeather = () => {
             <Skeleton
               variant="text"
               width={"60%"}
-              style={{height: '50px'}}
+              style={{ height: "50px" }}
               sx={{ bgcolor: "rgba( 255, 255, 255, 0.5 )" }}
             />
           ) : (
             <div className="location">
-              <span className="location-name">
-                {currentWeather && currentWeather.name}
-              </span>
+              <span className="location-name">{currentWeather.name}</span>
             </div>
           )}
 
@@ -63,7 +59,8 @@ const CurrentWeather = () => {
           ) : (
             <Icon
               className="animated-icon"
-              code={currentWeather && currentWeather.weather[0].icon}
+              code={currentWeather.weather[0].icon}
+              weatherCode={currentWeather.weather[0].id}
               type="animated"
               color="#fff"
             />
@@ -80,13 +77,10 @@ const CurrentWeather = () => {
               sx={{ bgcolor: "rgba( 255, 255, 255, 0.5 )" }}
             />
           ) : (
-            // <div>
             <span className="temperature">
-              {currentWeather && Math.round(currentWeather.temp) + "°"}
+              {Math.round(currentWeather.temp) + "°"}
             </span>
-            // </div>
           )}
-          {/* <Typography variant="h2" className="temperature">{loading ? <Skeleton width={'100%'} /> : currentWeather && Math.round(currentWeather.temp) + "°"}</Typography> */}
 
           {loading ? (
             <Skeleton
@@ -97,9 +91,8 @@ const CurrentWeather = () => {
             />
           ) : (
             <span className="weather">
-              {currentWeather &&
-                currentWeather.weather[0].description[0].toUpperCase() +
-                  currentWeather.weather[0].description.slice(1)}
+              {currentWeather.weather[0].description[0].toUpperCase() +
+                currentWeather.weather[0].description.slice(1)}
             </span>
           )}
           {loading ? (
@@ -111,11 +104,7 @@ const CurrentWeather = () => {
             />
           ) : (
             <span className="date">
-              {currentWeather &&
-                moment
-                  .unix(currentWeather.dt)
-                  .format("MMMM D, YYYY")
-                  .toString()}
+              {moment.unix(currentWeather.dt).format("MMMM D, YYYY").toString()}
             </span>
           )}
           {loading ? (
@@ -129,11 +118,11 @@ const CurrentWeather = () => {
             <div className="max-min">
               <img className="max-icon" src={thermometerSun} alt="max icon" />
               <span className="max">
-                {currentWeather && Math.round(currentWeather.maxTemp) + "°"}
+                {Math.round(currentWeather.maxTemp) + "°"}
               </span>
               <img className="min-icon" src={thermometerMoon} alt="min icon" />
               <span className="min">
-                {currentWeather && Math.round(currentWeather.minTemp) + "°"}
+                {Math.round(currentWeather.minTemp) + "°"}
               </span>
             </div>
           )}
@@ -149,9 +138,7 @@ const CurrentWeather = () => {
           ) : (
             <div className="clouds">
               <img className="cloud-icon" src={cloud} alt="cloud icon" />
-              <span className="cloudiness">
-                {currentWeather && currentWeather.clouds + "%"}
-              </span>
+              <span className="cloudiness">{currentWeather.clouds + "%"}</span>
             </div>
           )}
         </div>
