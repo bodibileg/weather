@@ -24,6 +24,10 @@ To install and run this application locally, follow these steps:
 ```sh
   touch .env
 ```
+```javascript
+  REACT_APP_OPENWEATHERMAP_API_URL=http://api.openweathermap.org/
+  REACT_APP_OPENWEATHERMAP_API_KEY=<api-key>
+```
 - Start the development server:
 ```sh
   npm start
@@ -43,11 +47,6 @@ To install and run this application locally, follow these steps:
 - **Moment.js**: A library for parsing, validating, manipulating, and displaying dates and times.
 -** Material-UI**: A popular React UI framework.
 - **SCSS**: A CSS preprocessor that adds power and elegance to the basic CSS.
-
-## Usage
-
-- **Enter Zipcode**: Enter the location zipcode for which you want to check the weather.
-- **Current Location Weather**: Instantly view the current weather and the forecast for the specified location.
 
 ## Contributing
 
