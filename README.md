@@ -71,13 +71,13 @@ To install and run this application locally, follow these steps:
   <br/>
   <details>
   <summary>Daytime</summary>
-  ![Daytime](.screenshots/day-screenshot.png)
+  ![Daytime](./screenshots/day-screenshot.png)
   </details>
 
   <br/>
   <details>
   <summary>Nighttime</summary>
-  ![Nighttime](.screenshots/night-screenshot.png)
+  ![Nighttime](./screenshots/night-screenshot.png)
   </details>
 
 ## Contributing
