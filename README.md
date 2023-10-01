@@ -66,6 +66,20 @@ To install and run this application locally, follow these steps:
 -** Material-UI**: A popular React UI framework.
 - **SCSS**: A CSS preprocessor that adds power and elegance to the basic CSS.
 
+## Screenshots
+
+  <br/>
+  <details>
+  <summary>Daytime</summary>
+  ![Daytime](.screenshots/day-screenshot.png)
+  </details>
+
+  <br/>
+  <details>
+  <summary>Nighttime</summary>
+  ![Nighttime](.screenshots/night-screenshot.png)
+  </details>
+
 ## Contributing
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
