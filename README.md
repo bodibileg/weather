@@ -49,6 +49,9 @@ To install and run this application locally, follow these steps:
 ```sh
   docker run -p 3000:3000 bodibileg/weather-app:latest
   ```
+  - go to http://localhost:3000/ in your browser
+  - enable location access
+
 </details>
 
 ## Feature
