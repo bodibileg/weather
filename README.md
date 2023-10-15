@@ -4,6 +4,8 @@
 
 This is a weather application built with React that provides real-time weather information. Users can check the current weather conditions, forecast, and other related data for a specific location.
 
+[Live Demo](http://weather-app-bodi.s3-website-us-east-1.amazonaws.com/)
+
 ## Installation
 
 To install and run this application locally, follow these steps:
